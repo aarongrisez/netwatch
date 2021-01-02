@@ -58,11 +58,10 @@ def record_system_data():
             }
         }
     ]
-    print(data)
     client.write_points(data)
 
 schedule.every(1).minute.do(record_speed)
-schedule.every(1).second.do(record_system_data)
+schedule.every(10).minutes.do(record_system_data)
 
 if __name__ == "__main__":
     while True:
