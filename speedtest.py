@@ -13,18 +13,18 @@ if INFLUX_DB_PASS is None:
 if INFLUX_DB_HOST is None:
     raise ValueError("Environment variable for NETWATCH_INFLUX_DB_HOST not set")
 
-response = subprocess.Popen('speedtest-cli --simple', shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-ping = re.findall('Ping:\s(.*?)\s', response, re.MULTILINE)
-download = re.findall('Download:\s(.*?)\s', response, re.MULTILINE)
-upload = re.findall('Upload:\s(.*?)\s', response, re.MULTILINE)
-
-ping = ping[0].replace(',', '.')
-download = download[0].replace(',', '.')
-upload = upload[0].replace(',', '.')
-
 client = InfluxDBClient(INFLUX_DB_HOST, 8086, 'speedmonitor', INFLUX_DB_PASS, 'internetspeed')
 
 def record():
+    response = subprocess.Popen('speedtest-cli --simple', shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
+    ping = re.findall('Ping:\s(.*?)\s', response, re.MULTILINE)
+    download = re.findall('Download:\s(.*?)\s', response, re.MULTILINE)
+    upload = re.findall('Upload:\s(.*?)\s', response, re.MULTILINE)
+
+    ping = ping[0].replace(',', '.')
+    download = download[0].replace(',', '.')
+    upload = upload[0].replace(',', '.')
+
     speed_data = [
         {
             "measurement" : "internet_speed",
