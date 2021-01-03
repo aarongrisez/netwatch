@@ -8,13 +8,8 @@ import shutil
 import psutil
 from influxdb import InfluxDBClient
 
-INFLUX_DB_HOST = os.environ.get("NETWATCH_INFLUX_DB_HOST", None)
-INFLUX_DB_PASS = os.environ.get("NETWATCH_INFLUX_DB_PASS", None)
-
-if INFLUX_DB_PASS is None:
-    raise ValueError("Environment variable for NETWATCH_INFLUX_DB_PASS not set")
-if INFLUX_DB_HOST is None:
-    raise ValueError("Environment variable for NETWATCH_INFLUX_DB_HOST not set")
+INFLUX_DB_HOST = os.environ.get("NETWATCH_INFLUX_DB_HOST")
+INFLUX_DB_PASS = os.environ.get("NETWATCH_INFLUX_DB_PASS")
 
 client = InfluxDBClient(INFLUX_DB_HOST, 8086, 'speedmonitor', INFLUX_DB_PASS, 'internetspeed')
 
